@@ -14,39 +14,57 @@ class CategoryControl extends React.Component {
       {
         category: "Engine Parts",
         selection: [
-          { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1 },
-          { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", prodQuantity: 4 }
+          { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1, id: 9807 },
+          { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", prodQuantity: 4, id:9808 }
         ]
       },
       {
         category: "Hardpoints",
-        selection: [{ prodName: "Pulse Laser", prodDescription: "Blasters!", prodQuantity: 3 }]
+        selection: [{ prodName: "Pulse Laser", prodDescription: "Blasters!", prodQuantity: 3, id:9708 }]
       },
       {
         category: "Ship Armor",
-        selection: [{ prodName: "Titanium Plate", prodDescription: "Ship Armor", prodQuantity: 4 }]
+        selection: [{ prodName: "Titanium Plate", prodDescription: "Ship Armor", prodQuantity: 4, id:9608 }]
       },
       {
         category: "Utility Mounts",
-        selection: [{ prodName: "Detailed Surface Scanner", prodDescription: "Scans Planets", prodQuantity: 5 }]
+        selection: [{ prodName: "Detailed Surface Scanner", prodDescription: "Scans Planets", prodQuantity: 5, id:9508 }]
       },
       {
         category: "Shield Generators",
-        selection: [{ prodName: "4E Shield Generator", prodDescription: "Protect your shiiit", prodQuantity: 4 }]
+        selection: [{ prodName: "4E Shield Generator", prodDescription: "Protect your shiiit", prodQuantity: 4, id:9408 }]
       },
       {
         category: "Internal compartments",
-        selection: [{ prodName: "6B Cargo Hold", prodDescription: "Hold your shiiit", prodQuantity: 5 }]
+        selection: [{ prodName: "6B Cargo Hold", prodDescription: "Hold your shiiit", prodQuantity: 5, id:9308 }]
       }]
     };
   }
 
-    handleClickForm = () => {
+  handleClickForm = () => {
+    if (this.state.selectedProduct != null){
+      this.setState({
+        formVisibleOnPage: false,
+        selectedProduct: null
+      });
+    } else {
       this.setState(prevState => ({
         formVisibleOnPage: !prevState.formVisibleOnPage
       }));
     }
-  
+  }
+
+  handleDeletingProduct = (id) => {
+    const currentCatIndex = this.state.categoryVisibleOnPage;
+    const clone = [...this.state.masterProductList]
+    const newSelection = this.state.masterProductList[currentCatIndex].selection.filter(pro => pro.id !== id);     
+    clone[currentCatIndex].selection = newSelection;    
+    this.setState({
+      selectedProduct: null,
+      formVisibleOnPage:false,
+      masterProductList: clone});
+    
+  }  
 
   handleClickUp = () => {
     if (this.state.categoryVisibleOnPage >= 5) {
@@ -71,14 +89,14 @@ class CategoryControl extends React.Component {
   }
 
   handleChangingSelectedProduct = (id) => {
-    const selectedProduct = this.state.masterProductList.filter(pro => pro.id === id)[0];
+    const currentCatIndex = this.state.categoryVisibleOnPage;
+    const selectedProduct = this.state.masterProductList[currentCatIndex].selection.filter(pro => pro.id === id)[0];  
     this.setState({selectedProduct: selectedProduct});
   }
 
   handleAddingNewProductToList = (newProduct) => {
     const clone = [...this.state.masterProductList]
-    const newSelection = clone[newProduct.prodCategory].selection.concat(newProduct);
-    
+    const newSelection = clone[newProduct.prodCategory].selection.concat(newProduct);    
     clone[newProduct.prodCategory].selection = newSelection;
     this.setState({
       masterProductList: clone,
@@ -91,8 +109,8 @@ class CategoryControl extends React.Component {
     let buttonText = null;
 
     if (this.state.selectedProduct != null) {
-      currentVisibleState = <ProductDetail product = {this.state.selectedProduct} />
-      buttonText = "Return to Product List";
+      currentVisibleState = <ProductDetail product = {this.state.selectedProduct} onClickingDelete = {this.handleDeletingProduct} />
+      buttonText = "Return to Outfitting";
     }
     else if (this.state.formVisibleOnPage) {
       currentVisibleState = <NewProductForm onNewProductCreation={this.handleAddingNewProductToList} />;

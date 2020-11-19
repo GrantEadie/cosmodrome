@@ -9,6 +9,7 @@ function CategoryList(props) {
       <Category
         category={props.availableProducts[props.currentIndex].category}
         selection={props.availableProducts[props.currentIndex].selection}
+        onProductSelection={props.onProductSelection}
         />
     </React.Fragment>
   );  
@@ -16,7 +17,8 @@ function CategoryList(props) {
 
 CategoryList.propTypes = {
   currentIndex: PropTypes.number,   
-  availableProducts: PropTypes.array
+  availableProducts: PropTypes.array,
+  onProductSelection: PropTypes.func
 }
 
 export default CategoryList;

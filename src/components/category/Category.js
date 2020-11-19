@@ -19,7 +19,7 @@ function Category(props){
         whenProductClicked = {props.onProductSelection}
         prodName={part.prodName}
         prodDescription={part.prodDescription} 
-        prodQuantity={part.prodQuantity}
+        prodQuantity={part.prodQuantity}             
         id={part.id}
         key={part.id}/>
         </li>
