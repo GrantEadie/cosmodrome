@@ -2,6 +2,7 @@ import React from 'react';
 import CategoryList from './CategoryList';
 import NewProductForm from '../product/NewProductForm.js'
 import ProductDetail from '../product/ProductDetail'
+import EditProductForm from '../product/EditProductForm';
 
 class CategoryControl extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class CategoryControl extends React.Component {
       formVisibleOnPage: false,
       selectedProduct: null,
       categoryVisibleOnPage: 0,
+      editing: false,
       masterProductList: [
       {
         category: "Engine Parts",
@@ -41,11 +43,31 @@ class CategoryControl extends React.Component {
     };
   }
 
+  handleEditingProductInList = (productToEdit) => {
+    const currentCatIndex = this.state.categoryVisibleOnPage;
+    const clone = [...this.state.masterProductList]
+    const editedSelection = this.state.masterProductList[currentCatIndex].selection
+    .filter(product => product.id !== this.state.selectedProduct.id)
+    .concat(productToEdit);
+    clone[currentCatIndex].selection = editedSelection;
+    this.setState({
+      masterProductList: clone,
+      editing: false,
+      selectedProduct: null
+    });
+  }
+
+  handleEditClick = () => {
+    console.log("handleEditClick reached!");
+    this.setState({editing: true});
+  }
+
   handleClickForm = () => {
     if (this.state.selectedProduct != null){
       this.setState({
         formVisibleOnPage: false,
-        selectedProduct: null
+        selectedProduct: null,
+        editing: false
       });
     } else {
       this.setState(prevState => ({
@@ -95,6 +117,7 @@ class CategoryControl extends React.Component {
   }
 
   handleAddingNewProductToList = (newProduct) => {
+    console.log("checking to make sure that NEW PRODUCT is coming in")
     const clone = [...this.state.masterProductList]
     const newSelection = clone[newProduct.prodCategory].selection.concat(newProduct);    
     clone[newProduct.prodCategory].selection = newSelection;
@@ -108,8 +131,14 @@ class CategoryControl extends React.Component {
     let currentVisibleState = null;
     let buttonText = null;
 
-    if (this.state.selectedProduct != null) {
-      currentVisibleState = <ProductDetail product = {this.state.selectedProduct} onClickingDelete = {this.handleDeletingProduct} />
+    if (this.state.editing){
+      currentVisibleState = <EditProductForm product = {this.state.selectedProduct} onEditProduct = {this.handleEditingProductInList} />
+      buttonText = "Return to Outfitter";
+    } else if (this.state.selectedProduct != null) {
+      currentVisibleState = <ProductDetail 
+      product = {this.state.selectedProduct} 
+      onClickingDelete = {this.handleDeletingProduct}
+      onClickingEdit = {this.handleEditClick} />
       buttonText = "Return to Outfitting";
     }
     else if (this.state.formVisibleOnPage) {

@@ -6,7 +6,6 @@ import ReusableForm from "../ReusableForm";
 function NewProductForm(props) {
 
   function handleNewProductFormSubmission(event){
-    console.log("FORM name: "+event.target.prodName.value)
     event.preventDefault();
    props.onNewProductCreation({prodName: event.target.prodName.value, prodDescription: event.target.prodDescription.value, prodCategory: event.target.prodCategory.value, prodQuantity: event.target.prodQuantity.value, id: v4() })
   }  

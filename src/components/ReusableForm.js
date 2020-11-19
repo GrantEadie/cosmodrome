@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { v4 } from 'uuid';
 
 function NewProductForm(props) {
   
   return (
     <React.Fragment>
-      <form onSubmit={props.formSubmissoinHandler}>
+      <form onSubmit={props.formSubmissionHandler}>
         <div className="form-group">
         <input
         className="form-control"
