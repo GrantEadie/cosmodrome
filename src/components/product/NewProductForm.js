@@ -13,18 +13,22 @@ function NewProductForm(props) {
   return (
     <React.Fragment>
       <form onSubmit={handleNewProductFormSubmission}>
+        <div className="form-group">
         <input
+        className="form-control"
           type='text'
           name='prodName'
-          placeholder='Product Name' />
+          placeholder='Product Name' /><br/>
         <input
+        className="form-control"
           type='text'
           name='prodDescription'
-          placeholder='Description' />
+          placeholder='Description' /><br/>
         <input
+        className="form-control"
           type="number"
           name='prodQuantity'
-          placeholder='Quantity' />
+          placeholder='Quantity' /><br/>
           
         <select className="form-control" name='prodCategory'>
           <option value="0">Engine Parts</option>
@@ -33,10 +37,12 @@ function NewProductForm(props) {
           <option value="3">Utility Mounts</option>
           <option value="4">Shield Generators</option>
           <option value="5">Internal compartments</option>
-        </select>
+        </select><br/>
 
-        <button type='submit'>Add Space Product</button>
+        <button className="btn btn-outline-danger btn-block" type='submit'>Add Space Product</button>
+        </div>
       </form>
+
     </React.Fragment>
   );
 }

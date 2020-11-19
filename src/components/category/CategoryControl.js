@@ -1,14 +1,17 @@
 import React from 'react';
 import CategoryList from './CategoryList';
 import NewProductForm from '../product/NewProductForm.js'
+import ProductDetail from '../product/ProductDetail'
 
 class CategoryControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formVisibleOnPage: false,
+      selectedProduct: null,
       categoryVisibleOnPage: 0,
-      masterProductList: [{
+      masterProductList: [
+      {
         category: "Engine Parts",
         selection: [
           { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1 },
@@ -65,16 +68,20 @@ class CategoryControl extends React.Component {
         categoryVisibleOnPage: prevState.categoryVisibleOnPage - 1
       }));
     }
+  }
 
+  handleChangingSelectedProduct = (id) => {
+    const selectedProduct = this.state.masterProductList.filter(pro => pro.id === id)[0];
+    this.setState({selectedProduct: selectedProduct});
   }
 
   handleAddingNewProductToList = (newProduct) => {
-    console.log("This is the new product category: " + newProduct.prodCategory)
-    console.log("Name of the first selection: " + this.state.masterProductList[newProduct.prodCategory].selection[0].prodName); 
-    const newMasterProductList = this.state.masterProductList[newProduct.prodCategory].selection.concat(newProduct);
-    const newMasterProductList = this.state.masterProductList[newProduct.prodCategory].selection.concat(newProduct); // This output is equavilent the single object we're inputting
+    const clone = [...this.state.masterProductList]
+    const newSelection = clone[newProduct.prodCategory].selection.concat(newProduct);
+    
+    clone[newProduct.prodCategory].selection = newSelection;
     this.setState({
-      masterProductList: newMasterProductList, // this isn't good - we're forcing the previous state to only contain one object within the array
+      masterProductList: clone,
       formVisibleOnPage: false
     });
   }
@@ -83,13 +90,16 @@ class CategoryControl extends React.Component {
     let currentVisibleState = null;
     let buttonText = null;
 
-
-    if (this.state.formVisibleOnPage) {
+    if (this.state.selectedProduct != null) {
+      currentVisibleState = <ProductDetail product = {this.state.selectedProduct} />
+      buttonText = "Return to Product List";
+    }
+    else if (this.state.formVisibleOnPage) {
       currentVisibleState = <NewProductForm onNewProductCreation={this.handleAddingNewProductToList} />;
       buttonText = "Return to Outfitting"
     } else {
       currentVisibleState = <CategoryList
-        currentIndex={this.state.categoryVisibleOnPage} availableProducts={this.state.masterProductList} />
+        currentIndex={this.state.categoryVisibleOnPage} availableProducts={this.state.masterProductList} onProductSelection={this.handleChangingSelectedProduct}/>
       buttonText = "Add new Space Product"
     }
 
@@ -102,7 +112,7 @@ class CategoryControl extends React.Component {
           <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
         </svg></button>
         {currentVisibleState}
-        <button className="arrow btn btn-outline-info" onClick={this.handleClickForm}>{buttonText}</button>
+        <button className="arrow btn btn-outline-info btn-block" onClick={this.handleClickForm}>{buttonText}</button>
       </React.Fragment>
     );
   }

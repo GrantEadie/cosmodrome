@@ -15,11 +15,11 @@ function Category(props){
       <hr/>
       <ul style={ulStyle}>
         {props.selection.map((part, index) =>
-        
         <li key={index}><Product
         prodName={part.prodName}
         prodDescription={part.prodDescription} 
         prodQuantity={part.prodQuantity}
+        
         />
         </li>
         )}
