@@ -4,18 +4,23 @@ import PropTypes from "prop-types";
 function Product(props){
   return (
     <React.Fragment>
-      <p className="itemTitle">{props.prodName}</p>
-      <p>{props.prodDescription}</p>
-      <p><em>Quantity: {props.prodQuantity}</em></p>
-      <hr/>
+      <div className="detailClick" onClick = {() => props.whenTicketclicked(props.id)}>
+        <p className="itemTitle">{props.prodName}</p>
+        <p>{props.prodDescription}</p>
+        <p><em>Quantity: {props.prodQuantity}</em></p>
+        <hr/>
+      </div>
     </React.Fragment>
   );
 }
-//Below: is required can be tacked on to make a property required
+
 Product.propTypes = {
   prodName: PropTypes.string,
   prodDescription: PropTypes.string,
   prodCategory: PropTypes.string,
   prodQuantity: PropTypes.number,
+  id: PropTypes.number,
+  key: PropTypes.number
 };
+
 export default Product;

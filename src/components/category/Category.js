@@ -14,13 +14,14 @@ function Category(props){
       <p><em>available parts</em></p>
       <hr/>
       <ul style={ulStyle}>
-        {props.selection.map((part, index) =>
-        <li key={index}><Product
+        {props.selection.map((part) =>
+        <li><Product
+        whenProductClicked = {props.onProductSelection}
         prodName={part.prodName}
         prodDescription={part.prodDescription} 
         prodQuantity={part.prodQuantity}
-        
-        />
+        id={part.id}
+        key={part.id}/>
         </li>
         )}
       </ul>
@@ -31,7 +32,7 @@ function Category(props){
 
 Category.propTypes = {
   category: PropTypes.string,
-  selection: PropTypes.array
-}
-
+  selection: PropTypes.array,
+  onProductSelection: PropTypes.func
+};
 export default Category;

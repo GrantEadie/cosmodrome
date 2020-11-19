@@ -15,7 +15,7 @@ class CategoryControl extends React.Component {
         category: "Engine Parts",
         selection: [
           { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1 },
-          { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", quantity: 4 }
+          { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", prodQuantity: 4 }
         ]
       },
       {
