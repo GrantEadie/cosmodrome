@@ -13,14 +13,19 @@ function CartList(props) {
         <CartProduct
           prodName={product.prodName}
           prodCategory={product.prodCategory}
+          prodDescription={product.prodDescription}
+          prodQuantity={product.prodQuantity}
           cartTotal={product.cartTotal}
-          key={index} />
+          key={index} 
+          id={product.id}
+          onDeleteCartProduct={props.onDeleteCartProduct}/>
       )}
     </React.Fragment>
   );
 }
 
 CartList.propTypes = {
+  onDeleteCartProduct: PropTypes.func,
   cartList: PropTypes.array
 }
 

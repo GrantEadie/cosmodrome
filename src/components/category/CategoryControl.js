@@ -64,7 +64,6 @@ class CategoryControl extends React.Component {
         let match = false
         for (const e of cartClone) {
           if (e.id === currentProduct.id) {
-            console.log("match in cart!")
             match = true
             e.cartTotal += 1;
             break;
@@ -98,6 +97,33 @@ class CategoryControl extends React.Component {
       editing: false,
       selectedProduct: null
     });
+  }
+
+  handleDeleteCartProduct = (oldProduct) => {
+    const clone = [...this.state.masterProductList];
+    for (let i = 0; i < clone.length; i++){
+      let match = false;
+      for (let j = 0; j < clone[i].selection.length; j++){
+        if (clone[i].selection[j].id === oldProduct.id){
+          match = true;
+          clone[i].selection[j].prodQuantity = clone[i].selection[j].prodQuantity + oldProduct.cartTotal;
+          break;
+        }
+      }
+        if (!match) {
+          const cloneOldProduct = {...oldProduct};
+          cloneOldProduct.prodQuantity = oldProduct.cartTotal
+          clone[i].selection.push(cloneOldProduct)
+          break;
+        }
+      }
+
+    const newSelection = this.state.masterCartList.filter(pro => pro.id !== oldProduct.id);
+
+    this.setState({
+      masterProductList: clone,
+      masterCartList: newSelection
+    })
   }
 
   handleEditClick = () => {
@@ -190,7 +216,8 @@ class CategoryControl extends React.Component {
         currentIndex={this.state.categoryVisibleOnPage} 
         availableProducts={this.state.masterProductList} 
         onProductSelection={this.handleChangingSelectedProduct}
-        onBuyProduct={this.handleBuyClick}/>
+        onBuyProduct={this.handleBuyClick}
+        />
       buttonText = "Add new Space Product"
     }    
 
@@ -209,7 +236,7 @@ class CategoryControl extends React.Component {
         <button className="arrow btn btn-outline-info btn-block" onClick={this.handleClickForm}>{buttonText}</button>
           </div>
           <div className="col-md-6">
-            <CartList cartList={this.state.masterCartList}/>
+            <CartList onDeleteCartProduct={this.handleDeleteCartProduct} cartList={this.state.masterCartList}/>
           </div>
         </div>
         <div className="row">
