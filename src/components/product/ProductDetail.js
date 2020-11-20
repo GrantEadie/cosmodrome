@@ -8,8 +8,8 @@ function ProductDetail(props){
     <React.Fragment>
       <h1>Product Detail</h1>
       <h3>Name: {product.prodName}</h3>
-      <h3>Description: {product.prodDescription}</h3>
-      <h3>Quantity: {product.prodQuantity}</h3>
+      <p>Description: {product.prodDescription}</p>
+      <h4>Quantity: {product.prodQuantity}</h4>
       <button className="btn btn-outline-danger btn-block" onClick={() => onClickingDelete(product.id) }>Delete This Part</button>
       <button className="btn btn-outline-light btn-block" onClick={ props.onClickingEdit }>Edit This Part</button>
 

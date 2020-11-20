@@ -16,6 +16,7 @@ function Category(props){
       <ul style={ulStyle}>
         {props.selection.map((part) =>
         <li><Product
+        onBuyProduct={props.onBuyProduct}
         whenProductClicked = {props.onProductSelection}
         prodName={part.prodName}
         prodDescription={part.prodDescription} 
@@ -33,6 +34,8 @@ function Category(props){
 Category.propTypes = {
   category: PropTypes.string,
   selection: PropTypes.array,
-  onProductSelection: PropTypes.func
+  onProductSelection: PropTypes.func,
+  onBuyProduct: PropTypes.func,
+  whenProductClicked: PropTypes.func
 };
 export default Category;

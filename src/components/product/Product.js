@@ -8,8 +8,10 @@ function Product(props){
         <p className="itemTitle">{props.prodName}</p>
         <p>{props.prodDescription}</p>
         <p><em>Quantity: {props.prodQuantity}</em></p>
+        </div>
+        <button className="btn btn-outline-light btn-sm" onClick = {() => props.onBuyProduct(props.id)}>Buy</button>
         <hr/>
-      </div>
+
     </React.Fragment>
   );
 }
@@ -21,7 +23,8 @@ Product.propTypes = {
   prodQuantity: PropTypes.number,
   id: PropTypes.number,
   key: PropTypes.number,
-  whenProductClicked: PropTypes.func
+  whenProductClicked: PropTypes.func,
+  onBuyProduct: PropTypes.func
 };
 
 export default Product;
