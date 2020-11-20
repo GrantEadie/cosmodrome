@@ -18,7 +18,7 @@ class CategoryControl extends React.Component {
       {
         category: "Engine Parts",
         selection: [
-          { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1, id: 9807 },
+          { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1, id: 9807, cartTotal: 0 },
           { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", prodQuantity: 4, id:9808, cartTotal: 0  }
         ]
       },
@@ -45,18 +45,14 @@ class CategoryControl extends React.Component {
     };
   }
 
-  handleBuyClick = (id) => {
-    
+  handleBuyClick = (id) => {    
     const currentCatIndex = this.state.categoryVisibleOnPage;
-
     const clone = [...this.state.masterProductList]
     const cartClone = [...this.state.masterCartList]
-
     for (let i = 0; i <= clone[currentCatIndex].selection.length; i++){
       if (clone[currentCatIndex].selection[i].id === id){
         const currentProduct = clone[currentCatIndex].selection[i];
         clone[currentCatIndex].selection[i].prodQuantity = clone[currentCatIndex].selection[i].prodQuantity -1;
-
         let match = false
         for (const e of cartClone) {
           if (e.id === currentProduct.id) {
@@ -70,12 +66,9 @@ class CategoryControl extends React.Component {
           cartClone.push(currentProduct)
         }
         
-        break;
-        
+        break;        
       }
     }
-
-
     // if reduced to 0 will need to remove from list
     this.setState({
       selectedProduct: null,
@@ -126,8 +119,7 @@ class CategoryControl extends React.Component {
     this.setState({
       selectedProduct: null,
       formVisibleOnPage:false,
-      masterProductList: clone});
-    
+      masterProductList: clone});    
   }  
 
   handleClickUp = () => {
@@ -172,7 +164,6 @@ class CategoryControl extends React.Component {
     let currentVisibleState = null;
     let buttonText = null;
 
-
     if (this.state.editing){
       currentVisibleState = <EditProductForm product = {this.state.selectedProduct} onEditProduct = {this.handleEditingProductInList} />
       buttonText = "Return to Outfitter";
@@ -193,9 +184,7 @@ class CategoryControl extends React.Component {
         onProductSelection={this.handleChangingSelectedProduct}
         onBuyProduct={this.handleBuyClick}/>
       buttonText = "Add new Space Product"
-    }
-
-    
+    }    
 
     return (
       <React.Fragment>
