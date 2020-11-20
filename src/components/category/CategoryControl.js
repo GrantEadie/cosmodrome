@@ -18,29 +18,29 @@ class CategoryControl extends React.Component {
       {
         category: "Engine Parts",
         selection: [
-          { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1, id: 9807, cartTotal: 0 },
-          { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", prodQuantity: 4, id:9808, cartTotal: 0  }
+          { prodName: "3A Thrusters", prodDescription: "Thrusters are what propels a ship when flying in normal space.", prodQuantity: 1, id: 9807, cartTotal: 1 },
+          { prodName: "Warp Converter", prodDescription: "A spacecraft equipped with a warp drive may travel at speeds greater than that of light by many orders of magnitude.", prodQuantity: 4, id:9808, cartTotal: 1  }
         ]
       },
       {
         category: "Hardpoints",
-        selection: [{ prodName: "Pulse Laser", prodDescription: "Blasters!", prodQuantity: 3, id:9708, cartTotal: 0  }]
+        selection: [{ prodName: "Pulse Laser", prodDescription: "Blasters!", prodQuantity: 3, id:9708, cartTotal: 1  }]
       },
       {
         category: "Ship Armor",
-        selection: [{ prodName: "Titanium Plate", prodDescription: "Ship Armor", prodQuantity: 4, id:9608, cartTotal: 0  }]
+        selection: [{ prodName: "Titanium Plate", prodDescription: "Ship Armor", prodQuantity: 4, id:9608, cartTotal: 1  }]
       },
       {
         category: "Utility Mounts",
-        selection: [{ prodName: "Detailed Surface Scanner", prodDescription: "Scans Planets", prodQuantity: 5, id:9508, cartTotal: 0  }]
+        selection: [{ prodName: "Detailed Surface Scanner", prodDescription: "Scans Planets", prodQuantity: 5, id:9508, cartTotal: 1  }]
       },
       {
         category: "Shield Generators",
-        selection: [{ prodName: "4E Shield Generator", prodDescription: "Protect your shiiit", prodQuantity: 4, id:9408, cartTotal: 0  }]
+        selection: [{ prodName: "4E Shield Generator", prodDescription: "Protect your shiiit", prodQuantity: 4, id:9408, cartTotal: 1  }]
       },
       {
         category: "Internal compartments",
-        selection: [{ prodName: "6B Cargo Hold", prodDescription: "Hold your shiiit", prodQuantity: 5, id:9308, cartTotal: 0  }]
+        selection: [{ prodName: "6B Cargo Hold", prodDescription: "Hold your shiiit", prodQuantity: 5, id:9308, cartTotal: 1  }]
       }]
     };
   }
@@ -51,8 +51,16 @@ class CategoryControl extends React.Component {
     const cartClone = [...this.state.masterCartList]
     for (let i = 0; i <= clone[currentCatIndex].selection.length; i++){
       if (clone[currentCatIndex].selection[i].id === id){
+
         const currentProduct = clone[currentCatIndex].selection[i];
-        clone[currentCatIndex].selection[i].prodQuantity = clone[currentCatIndex].selection[i].prodQuantity -1;
+        if (clone[currentCatIndex].selection[i].prodQuantity > 1) {
+          clone[currentCatIndex].selection[i].prodQuantity = clone[currentCatIndex].selection[i].prodQuantity -1;
+
+        } else {
+          clone[currentCatIndex].selection = this.state.masterProductList[currentCatIndex].selection.filter(pro => pro.id !== id);
+        }
+
+
         let match = false
         for (const e of cartClone) {
           if (e.id === currentProduct.id) {
@@ -69,7 +77,7 @@ class CategoryControl extends React.Component {
         break;        
       }
     }
-    // if reduced to 0 will need to remove from list
+    
     this.setState({
       selectedProduct: null,
       formVisibleOnPage:false,
